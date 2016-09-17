@@ -23,6 +23,7 @@ public class Lista {
         posicaoPrimeiro = -1;
         posicaoUltimo = 0;
         posicaoPrimeiroLivre = 0;
+        cursor = 0;
     }
 
     private void inserirNaFente(int elemento) {
@@ -72,20 +73,45 @@ public class Lista {
         }
     }
 
+    private void inserirAntesDe(int elemento, int ref){
+        if (!listaCheia() && !listaVazia()) {
+            int posicaoAtual = posicaoPrimeiro;
+            while (dados[posicaoAtual] != ref) {
+                if (posicaoAtual == -1) {
+                    System.out.println("Error");
+                }
+                posicaoAtual = proximo[posicaoAtual];
+            }
+            dados[posicaoPrimeiroLivre] = elemento;
+            proximo[posicaoPrimeiroLivre] = proximo[posicaoAtual-1];
+
+            proximo[posicaoAtual - 1] = posicaoPrimeiroLivre;
+
+            if (posicaoAtual == posicaoUltimo) {
+                posicaoUltimo = posicaoPrimeiro;
+            }
+            numeroElementos++;
+            posicaoPrimeiroLivre++;
+        } else {
+            System.out.println("Error");
+        }
+    }
+
+
     private void excluirElemento(int elemento) {
         if (!listaVazia() && buscarElemento(elemento)) {
             dados[cursor] = -1;
         }
     }
 
-    private void excluirPrimeiroElemente(int elemento) {
+    private void excluirPrimeiroElemento(int elemento) {
         if (!listaVazia() && buscarElemento(elemento)) {
             dados[posicaoPrimeiro] = -1;
             posicaoPrimeiro = proximo[posicaoPrimeiro];
         }
     }
 
-    private void excluirUltimoElemente(int elemento) {
+    private void excluirUltimoElemento(int elemento) {
         if (!listaVazia() && buscarElemento(elemento)) {
             dados[posicaoUltimo] = -1;
             posicaoUltimo = proximo[posicaoUltimo - 1];
