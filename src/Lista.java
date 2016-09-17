@@ -6,12 +6,11 @@ public class Lista {
 
     int[] dados;
     int[] proximo;
-    int[] espacoLivre;
     int posicaoPrimeiro;
     int posicaoUltimo;
     int posicaoPrimeiroLivre;
     int tamanhoVetor;
-    int apontador;
+    int cursor;
 
     int numeroElementos;
 
@@ -19,7 +18,6 @@ public class Lista {
         this.tamanhoVetor = tamanhoVetor;
         dados = new int[tamanhoVetor];
         proximo = new int[tamanhoVetor];
-        espacoLivre = new int[tamanhoVetor];
 
         numeroElementos = 0;
         posicaoPrimeiro = -1;
@@ -75,16 +73,30 @@ public class Lista {
     }
 
     private void excluirElemento(int elemento) {
-        for (int item : dados) {
-            if (item == elemento) {
+        if (!listaVazia() && buscarElemento(elemento)) {
+            dados[cursor] = -1;
+        }
+    }
 
-            }
+    private void excluirPrimeiroElemente(int elemento) {
+        if (!listaVazia() && buscarElemento(elemento)) {
+            dados[posicaoPrimeiro] = -1;
+            posicaoPrimeiro = proximo[posicaoPrimeiro];
+        }
+    }
+
+    private void excluirUltimoElemente(int elemento) {
+        if (!listaVazia() && buscarElemento(elemento)) {
+            dados[posicaoUltimo] = -1;
+            posicaoUltimo = proximo[posicaoUltimo - 1];
         }
     }
 
     private boolean buscarElemento(int elementos) {
+
         for (int dado : dados)
             if (dado == elementos) {
+                cursor = elementos;
                 return true;
             }
 
