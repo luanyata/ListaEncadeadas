@@ -26,20 +26,30 @@ public class Lista {
         cursor = 0;
     }
 
-    private void inserirNaFente(int elemento) {
-        if (!listaCheia()) {
+    public void inserirNaFente(int elemento) {
+        if (listaVazia()) {
             dados[posicaoPrimeiroLivre] = elemento;
+            proximo[posicaoPrimeiroLivre] = -1;
+            posicaoUltimo = proximo[posicaoPrimeiroLivre];
+
+        } else if (!listaCheia()) {
+            dados[posicaoPrimeiroLivre] = elemento;
+
             proximo[posicaoPrimeiroLivre] = posicaoPrimeiro;
-            posicaoPrimeiro = posicaoPrimeiroLivre;
-            numeroElementos++;
-            posicaoPrimeiroLivre++;
+
         } else {
             System.out.println("Error");
         }
+        posicaoPrimeiroLivre++;
+        posicaoPrimeiro++;
+        numeroElementos++;
     }
 
-    private void inserirNoFim(int elemento) {
-        if (!listaCheia()) {
+    public void inserirNoFim(int elemento) {
+        if (listaVazia()) {
+            dados[posicaoPrimeiroLivre] = elemento;
+            proximo[posicaoPrimeiroLivre] = -1;
+        } else if (!listaCheia()) {
             dados[posicaoPrimeiroLivre] = elemento;
             proximo[posicaoUltimo] = posicaoPrimeiroLivre;
             proximo[posicaoPrimeiroLivre] = -1;
@@ -51,7 +61,31 @@ public class Lista {
         }
     }
 
-    private void inserirDespoisDe(int elemento, int ref) {
+    public void inserirNaPosicao(int posicao, int elemento) {
+        if (!listaCheia() && !listaVazia()) {
+            int posicaoAtual = posicaoPrimeiro;
+
+            while (proximo[posicaoAtual] != posicao) {
+                if (posicaoAtual == -1) {
+                    System.out.println("Error");
+                }
+                posicaoAtual = proximo[posicaoAtual];
+            }
+            dados[posicaoPrimeiroLivre] = elemento;
+            proximo[posicaoPrimeiroLivre] = proximo[posicaoAtual];
+            proximo[posicaoAtual] = posicaoPrimeiroLivre;
+            if (posicaoAtual == posicaoUltimo) {
+                posicaoUltimo = posicaoPrimeiro;
+            }
+            numeroElementos++;
+            posicaoPrimeiroLivre++;
+        } else {
+            System.out.println("Error");
+        }
+
+    }
+
+    public void inserirDespoisDe(int elemento, int ref) {
         if (!listaCheia() && !listaVazia()) {
             int posicaoAtual = posicaoPrimeiro;
             while (dados[posicaoAtual] != ref) {
@@ -73,7 +107,7 @@ public class Lista {
         }
     }
 
-    private void inserirAntesDe(int elemento, int ref){
+    public void inserirAntesDe(int elemento, int ref) {
         if (!listaCheia() && !listaVazia()) {
             int posicaoAtual = posicaoPrimeiro;
             while (dados[posicaoAtual] != ref) {
@@ -83,8 +117,7 @@ public class Lista {
                 posicaoAtual = proximo[posicaoAtual];
             }
             dados[posicaoPrimeiroLivre] = elemento;
-            proximo[posicaoPrimeiroLivre] = proximo[posicaoAtual-1];
-
+            proximo[posicaoPrimeiroLivre] = proximo[posicaoAtual - 1];
             proximo[posicaoAtual - 1] = posicaoPrimeiroLivre;
 
             if (posicaoAtual == posicaoUltimo) {
@@ -98,20 +131,20 @@ public class Lista {
     }
 
 
-    private void excluirElemento(int elemento) {
+    public void excluirElemento(int elemento) {
         if (!listaVazia() && buscarElemento(elemento)) {
             dados[cursor] = -1;
         }
     }
 
-    private void excluirPrimeiroElemento(int elemento) {
+    public void excluirPrimeiroElemento(int elemento) {
         if (!listaVazia() && buscarElemento(elemento)) {
             dados[posicaoPrimeiro] = -1;
             posicaoPrimeiro = proximo[posicaoPrimeiro];
         }
     }
 
-    private void excluirUltimoElemento(int elemento) {
+    public void excluirUltimoElemento(int elemento) {
         if (!listaVazia() && buscarElemento(elemento)) {
             dados[posicaoUltimo] = -1;
             posicaoUltimo = proximo[posicaoUltimo - 1];
@@ -129,12 +162,12 @@ public class Lista {
         return false;
     }
 
-    private boolean listaVazia() {
+    private boolean listaCheia() {
         return (numeroElementos == tamanhoVetor);
     }
 
 
-    private boolean listaCheia() {
+    private boolean listaVazia() {
         return (numeroElementos == 0);
     }
 }
