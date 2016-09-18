@@ -2,21 +2,17 @@
  * Created by luan on 17/09/16.
  */
 public class Main {
-    public static void main(String[] args) {
-        Lista lista = new Lista(4);
+    public static void main(String[] args) throws Exception {
+        ListaEncadeadaSimples lista = new ListaEncadeadaSimples(5);
 
-        lista.inserirNaFente(9);
-        lista.inserirNaFente(8);
-        lista.inserirNaFente(7);
-        lista.inserirNaFente(6);
+        lista.inserirNoFinal(1);
+        lista.inserirNoFinal(2);
+        lista.inserirNoInicio(3);
+        lista.removerPrimeiro();
+        lista.removerUltimo();
 
-
-        for (int elemento : lista.dados) {
-            System.out.println("Numero:" + elemento);
-        }
-
-        for (int i : lista.proximo) {
-            System.out.println("Indice:" + i);
+        for (int elemento : lista.getDados()) {
+            System.out.println(elemento);
         }
     }
 }
